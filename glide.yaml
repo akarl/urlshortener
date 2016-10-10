@@ -1,0 +1,6 @@
+package: urlshortener
+import:
+- package: github.com/garyburd/redigo
+  version: ^1.0.0
+  subpackages:
+  - redis
