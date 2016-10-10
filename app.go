@@ -33,8 +33,23 @@ func NewApp() *App {
 	return &App{
 		Server:     s,
 		Mux:        mux,
-		Templates:  template.Must(template.ParseFiles("add.html", "view.html")),
 		URLStorage: st,
+	}
+}
+
+func (app *App) RenderTemplate(w http.ResponseWriter, name string, data interface{}) {
+	tmpl, err := template.ParseFiles(
+		"templates/base.tmpl",
+		"templates/" + name,
+	)
+
+	if err != nil {
+		http.Error(w, "", 500)
+		return
+	}
+
+	if err := tmpl.Execute(w, data); err != nil {
+		http.Error(w, "", 500)
 	}
 }
 

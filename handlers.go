@@ -29,9 +29,7 @@ func AddURL(w http.ResponseWriter, r *http.Request, app *App) {
 			log.Panic(err)
 		}
 	} else {
-		if err := app.Templates.ExecuteTemplate(w, "add.html", nil); err != nil {
-			log.Panic(err)
-		}
+		app.RenderTemplate(w, "add_url.tmpl", nil)
 	}
 }
 
@@ -52,7 +50,5 @@ func ViewURL(w http.ResponseWriter, r *http.Request, app *App) {
 	}
 
 	data := struct{ Code, URL string }{code, url}
-	if err := app.Templates.ExecuteTemplate(w, "view.html", data); err != nil {
-		log.Panic(err)
-	}
+	app.RenderTemplate(w, "view_url.tmpl", data)
 }
