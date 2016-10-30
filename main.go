@@ -1,18 +1,23 @@
 package main
 
-import "fmt"
+import (
+	"log"
 
-func setupHandlers(app *App) {
-	app.HandleFunc("/view", ViewURL)
-	app.HandleFunc("/add", AddURL)
-	app.HandleFunc("/r/", GotoURL)
-	//app.Mux.Handle("/static/", http.FileServer(http.Dir("./static")))
-}
+	"urlshortener/handlers"
+	"urlshortener/modules/database"
+	"urlshortener/modules/redis"
+)
 
 func main() {
-	app := NewApp()
-	setupHandlers(app)
-	if err := app.Start(); err != nil {
-		fmt.Println(err)
+	log.SetFlags(log.LstdFlags | log.Llongfile)
+
+	if err := database.ConnectDB(); err != nil {
+		log.Panicln(err)
+	}
+	if err := redis.ConnectRedis(); err != nil {
+		log.Panicln(err)
+	}
+	if err := handlers.StartHTTPServer(); err != nil {
+		log.Panicln(err)
 	}
 }

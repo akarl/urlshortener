@@ -1,0 +1,48 @@
+{{define "title"}}Viewing url{{end}}
+{{define "body"}}
+
+<div class="row">
+	<div class="col-md-6">
+		<form class="form form-inline" action="/create" method="post">
+			<div class="panel panel-default">
+				<div class="panel-body text-center">
+					<div class="form-group">
+						<h4>Create new short url</h4>
+						<label for="url">Create new: </label>
+						<div class="input-group">
+							<span class="input-group-addon">http(s)://</span>
+							<input type="text" name="url" class="form-control" id="url"
+								   placeholder="example.com/foo/bar">
+							<span class="input-group-btn">
+								<input class="btn btn-success" type="submit" value="Save!" />
+							</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+
+	{{range .URLs}}
+	<div class="col-md-6 form-inline">
+		<div class="panel panel-default">
+			<div class="panel-body text-center">
+				<div class="form-group">
+					<h4>{{ .URL }}</h4>
+					<label for="url">Your short URL: </label>
+					<div class="input-group">
+						<input type="text" class="form-control" title="{{.Code}}" value="http://localhost:8080/r/{{ .Code }}">
+						<span class="input-group-btn">
+							<button class="btn btn-info" type="button">Copy</button>
+						</span>
+					</div>
+					<span class="text-success">Clicks: <span class="badge">42</span></span>
+					<a href="/delete/{{ .Code }}">x</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	{{end}}
+</div>
+
+{{end}}
