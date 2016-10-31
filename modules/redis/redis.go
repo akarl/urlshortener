@@ -5,6 +5,7 @@ import (
 	"encoding/gob"
 	"log"
 	"time"
+	"urlshortener/config"
 
 	"github.com/garyburd/redigo/redis"
 )
@@ -18,11 +19,7 @@ func ConnectRedis() error {
 		IdleTimeout: 0,
 		Wait:        true,
 		Dial: func() (redis.Conn, error) {
-			return redis.Dial("tcp", ":6379")
-		},
-		TestOnBorrow: func(c redis.Conn, t time.Time) error {
-			_, err := c.Do("PING")
-			return err
+			return redis.Dial("tcp", config.REDIS_CONNECTION)
 		},
 	}
 
